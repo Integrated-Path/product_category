@@ -35,12 +35,12 @@ class AccountMove(models.Model):
     @api.model
     def _move_autocomplete_invoice_lines_create(self, vals_list):
         for move in vals_list:
-            for action in move['invoice_line_ids']:
+            for action in move.get('invoice_line_ids', []):
                 if action[0] in [0, 1]:
                     # finding the line in line_ids that matched the line in invoice_line_ids
                     matching_line = find_matching_lind_id(action, move)
                     if matching_line:
-                        matching_line[2]['category_id'] = action[2]['category_id']
+                        matching_line[2]['category_id'] = action[2].get('category_id')
                     else:
                         pass
 
